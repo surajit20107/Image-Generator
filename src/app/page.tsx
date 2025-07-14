@@ -6,13 +6,13 @@ import axios from "axios";
 export default function Home() {
   const [prompt, setPrompt] = useState("");
 
-  // ✅ CHANGED: Now using an array to store all chat history (prompt + image)
+  // Using an array to store all chat history (prompt + image)
   const [chats, setChats] = useState<{ prompt: string; image: string }[]>([]);
 
-  // ✅ NEW: Loading state to show status while waiting for API response
+  // Loading state to show status while waiting for API response
   const [loading, setLoading] = useState(false);
 
-  // ✅ CHANGED: handleSubmit now appends to chats instead of replacing a single image
+  // HandleSubmit append images to chats state
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!prompt.trim()) return;
@@ -22,7 +22,7 @@ export default function Home() {
     try {
       const res = await axios.post("/api/generate", { prompt });
       if (res.status === 200) {
-        // ✅ CHANGED: Add the current prompt + generated image to the chat history
+        // Add the current prompt + generated image to the chat history
         setChats((prev) => [
           ...prev,
           {
@@ -45,9 +45,9 @@ export default function Home() {
         <h1 className="text-center text-xl font-bold">Image Generator</h1>
       </div>
 
-      {/* ✅ NEW: Chat History Section */}
+      {/* Chat History Section */}
       <div className="flex-grow overflow-y-auto px-4 space-y-6 pb-28">
-        {/* ✅ NEW: Mapping through chats array to show prompt + image pairs */}
+        {/* Mapping through chats array to show prompt + image pairs */}
         {chats.map((chat, index)=>(
           <div key={index} className="flex flex-col space-y-2">
             <p className="bg-zinc-100 p-2 rounded-md self-start max-w-md">
@@ -61,7 +61,7 @@ export default function Home() {
           </div>
         ))}
 
-        {/* ✅ NEW: Show "Generating..." while waiting */}
+        {/* Show "Generating..." while waiting */}
         {loading && (
           <div className="text-gray-500 italic text-sm">
             Generating image...
@@ -69,7 +69,6 @@ export default function Home() {
         )}
       </div>
 
-      {/* ✅ CHANGED: Input Form stays the same, but supports chat-style submissions */}
       <form
         onSubmit={handleSubmit}
         className="flex items-center justify-center p-4 gap-2 sticky bottom-0 bg-white border-t">
